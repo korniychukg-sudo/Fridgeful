@@ -78,6 +78,67 @@ enum MealKind: String, CaseIterable, Codable {
     }
 }
 
+// World cuisines used for browsing, filtering, and the Discover showcase.
+enum Cuisine: String, CaseIterable, Codable {
+    case italian       = "Italian"
+    case french        = "French"
+    case mediterranean = "Mediterranean"
+    case mexican       = "Mexican"
+    case american      = "American"
+    case asian         = "Asian"
+    case indian        = "Indian"
+
+    var glyph: Glyph {
+        switch self {
+        case .italian:       return .pizza
+        case .french:        return .croissant
+        case .mediterranean: return .oliveBranch
+        case .mexican:       return .chili
+        case .american:      return .burger
+        case .asian:         return .wok
+        case .indian:        return .mortar
+        }
+    }
+
+    // Each cuisine gets its own hue pair for hero cards and tags.
+    var color: Color {
+        switch self {
+        case .italian:       return Color(red: 0.345, green: 0.545, blue: 0.341)
+        case .french:        return Color(red: 0.435, green: 0.475, blue: 0.694)
+        case .mediterranean: return Color(red: 0.216, green: 0.545, blue: 0.545)
+        case .mexican:       return Color(red: 0.812, green: 0.373, blue: 0.227)
+        case .american:      return Color(red: 0.769, green: 0.529, blue: 0.220)
+        case .asian:         return Color(red: 0.639, green: 0.322, blue: 0.416)
+        case .indian:        return Color(red: 0.827, green: 0.502, blue: 0.161)
+        }
+    }
+
+    // Deeper companion shade for gradients.
+    var shade: Color {
+        switch self {
+        case .italian:       return Color(red: 0.216, green: 0.388, blue: 0.235)
+        case .french:        return Color(red: 0.290, green: 0.322, blue: 0.518)
+        case .mediterranean: return Color(red: 0.125, green: 0.388, blue: 0.404)
+        case .mexican:       return Color(red: 0.616, green: 0.243, blue: 0.145)
+        case .american:      return Color(red: 0.573, green: 0.365, blue: 0.129)
+        case .asian:         return Color(red: 0.459, green: 0.196, blue: 0.290)
+        case .indian:        return Color(red: 0.635, green: 0.345, blue: 0.094)
+        }
+    }
+
+    var tagline: String {
+        switch self {
+        case .italian:       return "Pasta, tomatoes & basil"
+        case .french:        return "Butter, bistro classics"
+        case .mediterranean: return "Olive oil, sun & herbs"
+        case .mexican:       return "Bold, bright & spicy"
+        case .american:      return "Comfort food favorites"
+        case .asian:         return "Wok-fast & full of umami"
+        case .indian:        return "Warm spice & rich curries"
+        }
+    }
+}
+
 enum Difficulty: String, Codable {
     case easy   = "Easy"
     case medium = "Medium"
@@ -113,6 +174,27 @@ struct Recipe: Identifiable, Hashable {
     let tip: String?
 
     var ingredientIDs: [String] { items.map { $0.ingredientID } }
+
+    var cuisine: Cuisine { FoodLibrary.cuisineByRecipe[id] ?? .american }
+
+    // Vegetarian = contains no meat or fish (dairy, eggs, and plant proteins are fine).
+    var isVegetarian: Bool {
+        !items.contains { FoodLibrary.meatAndFishIDs.contains($0.ingredientID) }
+    }
+
+    var isQuick: Bool { minutes <= 20 }
+}
+
+// A themed, self-filtering shelf of recipes for the Discover tab.
+struct RecipeCollection: Identifiable {
+    let id: String
+    let title: String
+    let subtitle: String
+    let glyph: Glyph
+    let tint: Color
+    let matches: (Recipe) -> Bool
+
+    var recipes: [Recipe] { FoodLibrary.recipes.filter(matches) }
 }
 
 // MARK: - Match result

@@ -15,6 +15,7 @@ struct CardContainer<Content: View>: View {
             .overlay(
                 RoundedRectangle(cornerRadius: 20, style: .continuous).stroke(Kitchen.hairline, lineWidth: 1)
             )
+            .shadow(color: Color.black.opacity(0.04), radius: 7, y: 3)
     }
 }
 
@@ -149,6 +150,22 @@ struct MealTag: View {
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
             .background(Capsule().fill(Kitchen.primary.opacity(0.12)))
+    }
+}
+
+struct CuisineTag: View {
+    let cuisine: Cuisine
+    var body: some View {
+        HStack(spacing: 4) {
+            GlyphIcon(glyph: cuisine.glyph, size: 11, color: cuisine.color)
+            Text(cuisine.rawValue.uppercased())
+                .font(.kitchenRounded(10.5, .bold))
+                .tracking(0.6)
+                .foregroundColor(cuisine.color)
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(Capsule().fill(cuisine.color.opacity(0.12)))
     }
 }
 

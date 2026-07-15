@@ -11,6 +11,7 @@ struct MoreView: View {
                     ScreenHeader(title: "More",
                                  subtitle: "Settings, your shopping list, and how it all works.")
 
+                    statsCard
                     settingsCard
                     shoppingLink
                     howItWorksCard
@@ -26,6 +27,38 @@ struct MoreView: View {
         .sheet(isPresented: $showPrivacy) {
             LarderPolicySheet(urlString: "https://example.com")
         }
+    }
+
+    private var statsCard: some View {
+        CardContainer {
+            VStack(alignment: .leading, spacing: 14) {
+                MiniSectionLabel(title: "Your kitchen stats")
+                HStack(spacing: 10) {
+                    statTile(value: "\(pantry.cookedTotal)", label: "meals cooked",
+                             glyph: .flame, tint: Kitchen.primary)
+                    statTile(value: "\(pantry.savedRecipes.count)", label: "recipes saved",
+                             glyph: .bookmarkFill, tint: Kitchen.honey)
+                    statTile(value: "\(pantry.selectedNonStapleCount)", label: "on hand",
+                             glyph: .basket, tint: Kitchen.accent)
+                }
+            }
+        }
+    }
+
+    private func statTile(value: String, label: String, glyph: Glyph, tint: Color) -> some View {
+        VStack(spacing: 6) {
+            GlyphIcon(glyph: glyph, size: 18, color: tint)
+            Text(value)
+                .font(.kitchenSerif(22, .bold))
+                .foregroundColor(Kitchen.text)
+            Text(label)
+                .font(.kitchenRounded(11))
+                .foregroundColor(Kitchen.textMuted)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 12)
+        .background(RoundedRectangle(cornerRadius: 14, style: .continuous).fill(tint.opacity(0.08)))
     }
 
     private var settingsCard: some View {
@@ -117,9 +150,9 @@ struct MoreView: View {
                     Text("Fridge Rescue")
                         .font(.kitchenRounded(15, .semibold)).foregroundColor(Kitchen.text)
                     Spacer()
-                    Text("Version 1.0").font(.kitchenRounded(13)).foregroundColor(Kitchen.textMuted)
+                    Text("Version 1.1").font(.kitchenRounded(13)).foregroundColor(Kitchen.textMuted)
                 }
-                Text("\(FoodLibrary.recipes.count) offline recipes · \(FoodLibrary.ingredients.count) ingredients. No accounts, no ads, no internet required.")
+                Text("\(FoodLibrary.recipes.count) offline recipes across \(Cuisine.allCases.count) world cuisines · \(FoodLibrary.ingredients.count) ingredients. No accounts, no ads, no internet required.")
                     .font(.kitchenRounded(13.5)).foregroundColor(Kitchen.textMuted)
                     .fixedSize(horizontal: false, vertical: true)
                 Button(action: { showPrivacy = true }) {

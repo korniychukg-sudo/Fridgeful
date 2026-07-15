@@ -13,12 +13,14 @@ final class PantryStore: ObservableObject {
         didSet { defaults.set(assumeStaples, forKey: Keys.assumeStaples) }
     }
 
+    @Published private(set) var cookedTotal: Int = 0
+
     private let defaults = UserDefaults.standard
     private enum Keys {
         static let selected = "fr_selected_ingredients"
         static let saved = "fr_saved_recipes"
         static let assumeStaples = "fr_assume_staples"
-        static let seeded = "fr_seeded_v1"
+        static let cookedTotal = "fr_cooked_total"
     }
 
     init() {
@@ -35,6 +37,14 @@ final class PantryStore: ObservableObject {
         if let arr = defaults.array(forKey: Keys.saved) as? [String] {
             saved = Set(arr)
         }
+        cookedTotal = defaults.integer(forKey: Keys.cookedTotal)
+    }
+
+    // MARK: - Cooking log
+
+    func markCooked(_ recipeID: String) {
+        cookedTotal += 1
+        defaults.set(cookedTotal, forKey: Keys.cookedTotal)
     }
 
     // MARK: - Available set

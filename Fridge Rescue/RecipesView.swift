@@ -10,17 +10,19 @@ struct RecipesView: View {
     @EnvironmentObject var pantry: PantryStore
     @State private var filter: MatchFilter = .all
     @State private var kind: MealKind? = nil
+    @State private var cuisine: Cuisine? = nil
 
     private var matches: [MatchResult] {
         pantry.rankedMatches().filter { m in
             let passKind = kind == nil || m.recipe.kind == kind
+            let passCuisine = cuisine == nil || m.recipe.cuisine == cuisine
             let passFilter: Bool
             switch filter {
             case .ready:  passFilter = m.isReady
             case .almost: passFilter = !m.isReady && m.missingCount <= 2
             case .all:    passFilter = true
             }
-            return passKind && passFilter
+            return passKind && passCuisine && passFilter
         }
     }
 
@@ -32,6 +34,7 @@ struct RecipesView: View {
                                  subtitle: "Ranked by how much you can already make.")
 
                     filterBar
+                    cuisineBar
                     kindBar
 
                     if matches.isEmpty {
@@ -77,6 +80,35 @@ struct RecipesView: View {
                 .buttonStyle(PressableStyle())
             }
         }
+    }
+
+    private var cuisineBar: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                cuisineChip(nil, "All Cuisines", .globe, Kitchen.primaryDk)
+                ForEach(Cuisine.allCases, id: \.self) { c in
+                    cuisineChip(c, c.rawValue, c.glyph, c.color)
+                }
+            }
+            .padding(.vertical, 2)
+        }
+    }
+
+    private func cuisineChip(_ c: Cuisine?, _ label: String, _ glyph: Glyph, _ tint: Color) -> some View {
+        let active = cuisine == c
+        return Button(action: { withAnimation { cuisine = c } }) {
+            HStack(spacing: 6) {
+                GlyphIcon(glyph: glyph, size: 14, color: active ? .white : tint)
+                Text(label)
+                    .font(.kitchenRounded(13, .medium))
+                    .foregroundColor(active ? .white : Kitchen.text)
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(Capsule().fill(active ? tint : Kitchen.card))
+            .overlay(Capsule().stroke(active ? Color.clear : Kitchen.hairline, lineWidth: 1))
+        }
+        .buttonStyle(PressableStyle())
     }
 
     private var kindBar: some View {
@@ -160,9 +192,11 @@ struct RecipeMatchCard: View {
                             .lineLimit(2)
                         HStack(spacing: 12) {
                             MetaChip(glyph: .clock, text: "\(match.recipe.minutes) min")
-                            MetaChip(glyph: .people, text: "\(match.recipe.servings)")
                             MetaChip(glyph: .flame, text: match.recipe.difficulty.rawValue,
                                      tint: match.recipe.difficulty.color)
+                            MetaChip(glyph: match.recipe.cuisine.glyph,
+                                     text: match.recipe.cuisine.rawValue,
+                                     tint: match.recipe.cuisine.color)
                         }
                     }
                     Spacer(minLength: 0)

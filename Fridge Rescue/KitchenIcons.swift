@@ -12,6 +12,9 @@ enum Glyph {
     case chevronRight, chevronLeft, check, close, plus, minus, search, trash
     case bookmark, bookmarkFill, sliders, cart, clock, flame, people, info
     case restart, sparkle, basket
+    // Cuisines & cook mode
+    case globe, pizza, croissant, oliveBranch, chili, burger, wok, mortar
+    case star, play
 }
 
 struct GlyphIcon: View {
@@ -355,6 +358,131 @@ struct GlyphIcon: View {
                 stroke { p in
                     p.move(to: P(10, 12)); p.addLine(to: P(10.4, 16))
                     p.move(to: P(14, 12)); p.addLine(to: P(13.6, 16))
+                }
+
+            case .globe:
+                ellipse(4, 4, 16, 16)
+                ellipse(8.5, 4, 7, 16)
+                stroke { p in
+                    p.move(to: P(4.6, 9)); p.addLine(to: P(19.4, 9))
+                    p.move(to: P(4.6, 15)); p.addLine(to: P(19.4, 15))
+                }
+
+            case .pizza:
+                // A slice pointing down with a crust arc and topping dots.
+                stroke { p in
+                    p.move(to: P(5, 7)); p.addLine(to: P(12, 20.5)); p.addLine(to: P(19, 7))
+                }
+                stroke { p in
+                    p.move(to: P(5, 7))
+                    p.addQuadCurve(to: P(19, 7), control: P(12, 3.5))
+                }
+                dot(10, 9.5, 1.2)
+                dot(14.3, 10.5, 1.2)
+                dot(11.8, 14, 1.2)
+
+            case .croissant:
+                // Horizontal crescent with segment creases and downturned tips.
+                stroke { p in
+                    p.move(to: P(4, 15))
+                    p.addQuadCurve(to: P(20, 15), control: P(12, 3))
+                    p.addQuadCurve(to: P(4, 15), control: P(12, 10.5))
+                }
+                stroke { p in
+                    p.move(to: P(8.6, 7.8)); p.addLine(to: P(9.2, 12.6))
+                    p.move(to: P(15.4, 7.8)); p.addLine(to: P(14.8, 12.6))
+                }
+                stroke { p in
+                    p.move(to: P(4, 15)); p.addQuadCurve(to: P(5.2, 18), control: P(3.8, 17))
+                    p.move(to: P(20, 15)); p.addQuadCurve(to: P(18.8, 18), control: P(20.2, 17))
+                }
+
+            case .oliveBranch:
+                stroke { p in
+                    p.move(to: P(5, 19))
+                    p.addQuadCurve(to: P(19, 5), control: P(9, 9))
+                }
+                fill { p in
+                    p.move(to: P(10, 12.5))
+                    p.addQuadCurve(to: P(5.5, 12), control: P(7, 14.5))
+                    p.addQuadCurve(to: P(10, 12.5), control: P(7.5, 10.5))
+                }
+                fill { p in
+                    p.move(to: P(13.5, 9))
+                    p.addQuadCurve(to: P(12, 4.5), control: P(11.5, 7.5))
+                    p.addQuadCurve(to: P(13.5, 9), control: P(14.5, 6.5))
+                }
+                dot(15.5, 12.5, 1.7)
+                dot(18.5, 9.8, 1.4)
+
+            case .chili:
+                // Curved pepper body with a little stem.
+                stroke { p in
+                    p.move(to: P(15.5, 6.5))
+                    p.addQuadCurve(to: P(6, 18.5), control: P(16.5, 15.5))
+                    p.addQuadCurve(to: P(12.5, 8), control: P(9.5, 12))
+                    p.addQuadCurve(to: P(15.5, 6.5), control: P(13.8, 6.6))
+                }
+                stroke { p in
+                    p.move(to: P(15.5, 6.5))
+                    p.addQuadCurve(to: P(18.5, 4), control: P(15.8, 4.2))
+                }
+
+            case .burger:
+                stroke { p in
+                    p.move(to: P(4.5, 10))
+                    p.addQuadCurve(to: P(19.5, 10), control: P(12, 3.5))
+                }
+                stroke { p in p.move(to: P(4.5, 13)); p.addLine(to: P(19.5, 13)) }
+                stroke { p in
+                    p.move(to: P(4.5, 16))
+                    p.addLine(to: P(19.5, 16))
+                    p.addQuadCurve(to: P(17.5, 19), control: P(19.5, 19))
+                    p.addLine(to: P(6.5, 19))
+                    p.addQuadCurve(to: P(4.5, 16), control: P(4.5, 19))
+                }
+                dot(9, 7.4, 0.8)
+                dot(12.5, 6.8, 0.8)
+                dot(15.5, 7.6, 0.8)
+
+            case .wok:
+                stroke { p in
+                    p.move(to: P(5, 11))
+                    p.addQuadCurve(to: P(19, 11), control: P(12, 19.5))
+                }
+                stroke { p in p.move(to: P(3, 11)); p.addLine(to: P(21, 11)) }
+                stroke { p in
+                    p.move(to: P(9.5, 8)); p.addQuadCurve(to: P(9.5, 4.5), control: P(11, 6))
+                    p.move(to: P(14, 8)); p.addQuadCurve(to: P(14, 4.5), control: P(15.5, 6))
+                }
+
+            case .mortar:
+                stroke { p in
+                    p.move(to: P(5, 11))
+                    p.addLine(to: P(19, 11))
+                    p.addQuadCurve(to: P(14.5, 19), control: P(18.5, 17))
+                    p.addLine(to: P(9.5, 19))
+                    p.addQuadCurve(to: P(5, 11), control: P(5.5, 17))
+                }
+                stroke { p in
+                    p.move(to: P(9.5, 10.5)); p.addLine(to: P(16.5, 3.5))
+                }
+                dot(17.2, 3.2, 1.6)
+
+            case .star:
+                var pts: [CGPoint] = []
+                for i in 0..<10 {
+                    let a = Double(i) * .pi / 5 - .pi / 2
+                    let r: CGFloat = i % 2 == 0 ? 8.5 : 3.6
+                    pts.append(P(12 + r * CGFloat(cos(a)), 12 + r * CGFloat(sin(a))))
+                }
+                fill { p in p.addLines(pts); p.closeSubpath() }
+
+            case .play:
+                ellipse(4, 4, 16, 16)
+                fill { p in
+                    p.move(to: P(10, 8.2)); p.addLine(to: P(16.2, 12)); p.addLine(to: P(10, 15.8))
+                    p.closeSubpath()
                 }
             }
         }

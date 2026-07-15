@@ -3,6 +3,8 @@ import SwiftUI
 struct PantryView: View {
     @EnvironmentObject var pantry: PantryStore
     @State private var query = ""
+    // Collapsed group sections — searching always expands everything that matches.
+    @State private var collapsed: Set<IngredientGroup> = []
 
     private var groups: [(group: IngredientGroup, items: [Ingredient])] {
         let q = query.trimmingCharacters(in: .whitespaces).lowercased()
@@ -95,28 +97,54 @@ struct PantryView: View {
 
     private func groupSection(_ group: IngredientGroup, _ items: [Ingredient]) -> some View {
         let selectedInGroup = items.filter { pantry.isSelected($0.id) }.count
-        return VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 10) {
-                GroupEmblem(group: group, size: 34)
-                Text(group.rawValue)
-                    .font(.kitchenRounded(17, .semibold))
-                    .foregroundColor(Kitchen.text)
-                Spacer()
-                if selectedInGroup > 0 {
-                    Text("\(selectedInGroup)")
-                        .font(.kitchenRounded(12.5, .bold))
-                        .foregroundColor(group.color)
-                        .padding(.horizontal, 9)
-                        .padding(.vertical, 3)
-                        .background(Capsule().fill(group.color.opacity(0.14)))
-                }
-            }
+        let searching = !query.trimmingCharacters(in: .whitespaces).isEmpty
+        let isCollapsed = collapsed.contains(group) && !searching
 
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 108), spacing: 10)], spacing: 10) {
-                ForEach(items) { ing in
-                    IngredientChip(ingredient: ing,
-                                   selected: pantry.isSelected(ing.id)) {
-                        withAnimation(.easeOut(duration: 0.12)) { pantry.toggle(ing.id) }
+        return VStack(alignment: .leading, spacing: 12) {
+            // Tappable section header collapses/expands the group.
+            Button(action: {
+                guard !searching else { return }
+                withAnimation(.easeOut(duration: 0.18)) {
+                    if isCollapsed { collapsed.remove(group) } else { collapsed.insert(group) }
+                }
+            }) {
+                HStack(spacing: 10) {
+                    GroupEmblem(group: group, size: 34)
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(group.rawValue)
+                            .font(.kitchenRounded(16.5, .semibold))
+                            .foregroundColor(Kitchen.text)
+                        Text("\(selectedInGroup) of \(items.count) selected")
+                            .font(.kitchenRounded(11.5))
+                            .foregroundColor(selectedInGroup > 0 ? group.color : Kitchen.textMuted)
+                    }
+                    Spacer()
+                    if selectedInGroup > 0 {
+                        Text("\(selectedInGroup)")
+                            .font(.kitchenRounded(12.5, .bold))
+                            .foregroundColor(group.color)
+                            .padding(.horizontal, 9)
+                            .padding(.vertical, 3)
+                            .background(Capsule().fill(group.color.opacity(0.14)))
+                    }
+                    GlyphIcon(glyph: .chevronRight, size: 15, color: Kitchen.textMuted)
+                        .rotationEffect(.degrees(isCollapsed ? 0 : 90))
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 11)
+                .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Kitchen.card))
+                .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).stroke(Kitchen.hairline, lineWidth: 1))
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(PressableStyle())
+
+            if !isCollapsed {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 108), spacing: 10)], spacing: 10) {
+                    ForEach(items) { ing in
+                        IngredientChip(ingredient: ing,
+                                       selected: pantry.isSelected(ing.id)) {
+                            withAnimation(.easeOut(duration: 0.12)) { pantry.toggle(ing.id) }
+                        }
                     }
                 }
             }

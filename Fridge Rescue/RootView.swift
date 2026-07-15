@@ -11,9 +11,10 @@ struct RootView: View {
             VStack(spacing: 0) {
                 Group {
                     switch selectedTab {
-                    case 0: NavigationView { PantryView() }.navigationViewStyle(StackNavigationViewStyle())
-                    case 1: NavigationView { RecipesView() }.navigationViewStyle(StackNavigationViewStyle())
-                    case 2: NavigationView { SavedView() }.navigationViewStyle(StackNavigationViewStyle())
+                    case 0: NavigationView { DiscoverView() }.navigationViewStyle(StackNavigationViewStyle())
+                    case 1: NavigationView { PantryView() }.navigationViewStyle(StackNavigationViewStyle())
+                    case 2: NavigationView { RecipesView() }.navigationViewStyle(StackNavigationViewStyle())
+                    case 3: NavigationView { SavedView() }.navigationViewStyle(StackNavigationViewStyle())
                     default: NavigationView { MoreView() }.navigationViewStyle(StackNavigationViewStyle())
                     }
                 }
@@ -26,10 +27,11 @@ struct RootView: View {
 
     private var tabBar: some View {
         HStack(spacing: 0) {
-            tabButton(0, "Kitchen", .basket)
-            tabButton(1, "Recipes", .pot)
-            tabButton(2, "Saved", .bookmark)
-            tabButton(3, "More", .sliders)
+            tabButton(0, "Discover", .globe)
+            tabButton(1, "Kitchen", .basket)
+            tabButton(2, "Recipes", .pot)
+            tabButton(3, "Saved", .bookmark)
+            tabButton(4, "More", .sliders)
         }
         .padding(.top, 8)
         .padding(.bottom, 4)
@@ -50,7 +52,7 @@ struct RootView: View {
                             .frame(width: 46, height: 30)
                     }
                     // "Saved" uses a filled bookmark when active for a clear on/off state.
-                    GlyphIcon(glyph: (index == 2 && active) ? .bookmarkFill : glyph,
+                    GlyphIcon(glyph: (index == 3 && active) ? .bookmarkFill : glyph,
                               size: 22,
                               color: active ? Kitchen.primary : Kitchen.textMuted.opacity(0.8))
                 }

@@ -4,6 +4,7 @@ struct RecipeDetailView: View {
     @EnvironmentObject var pantry: PantryStore
     @Environment(\.presentationMode) private var presentationMode
     let recipe: Recipe
+    @State private var showCookMode = false
 
     private var match: MatchResult { pantry.match(for: recipe) }
 
@@ -26,6 +27,7 @@ struct RecipeDetailView: View {
                         ingredientsCard
                         stepsCard
                         if let tip = recipe.tip { tipCard(tip) }
+                        cookButton
                         saveButton
                     }
                     .padding(.horizontal, Metrics.gutter)
@@ -37,6 +39,10 @@ struct RecipeDetailView: View {
             topBar
         }
         .navigationBarHidden(true)
+        .fullScreenCover(isPresented: $showCookMode) {
+            CookModeView(recipe: recipe)
+                .environmentObject(pantry)
+        }
     }
 
     // MARK: - Top bar with custom back control
@@ -72,7 +78,10 @@ struct RecipeDetailView: View {
             HStack(spacing: 12) {
                 MealEmblem(kind: recipe.kind, size: 52)
                 VStack(alignment: .leading, spacing: 4) {
-                    MealTag(kind: recipe.kind)
+                    HStack(spacing: 6) {
+                        MealTag(kind: recipe.kind)
+                        CuisineTag(cuisine: recipe.cuisine)
+                    }
                     Text(recipe.name)
                         .font(.kitchenSerif(26, .semibold))
                         .foregroundColor(Kitchen.primaryDk)
@@ -215,6 +224,26 @@ struct RecipeDetailView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(RoundedRectangle(cornerRadius: 18, style: .continuous).fill(Kitchen.honey.opacity(0.09)))
         .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).stroke(Kitchen.honey.opacity(0.3), lineWidth: 1))
+    }
+
+    private var cookButton: some View {
+        Button(action: { showCookMode = true }) {
+            HStack(spacing: 8) {
+                GlyphIcon(glyph: .play, size: 19, color: .white)
+                Text("Start cooking")
+                    .font(.kitchenRounded(16.5, .semibold)).foregroundColor(.white)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 15)
+            .background(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(LinearGradient(colors: [recipe.cuisine.color, recipe.cuisine.shade],
+                                         startPoint: .leading, endPoint: .trailing))
+            )
+            .shadow(color: recipe.cuisine.shade.opacity(0.25), radius: 8, y: 4)
+        }
+        .buttonStyle(PressableStyle())
+        .padding(.top, 2)
     }
 
     private var saveButton: some View {
