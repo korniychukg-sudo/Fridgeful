@@ -63,18 +63,24 @@ struct DiscoverView: View {
         let cuisine = m.recipe.cuisine
         return NavigationLink(destination: RecipeDetailView(recipe: m.recipe)) {
             VStack(alignment: .leading, spacing: 0) {
-                // Hero band
+                // Hero band: the recipe illustration under a cuisine-tinted gradient
+                // so the white text stays legible over the light art.
                 ZStack(alignment: .topLeading) {
-                    LinearGradient(colors: [cuisine.color, cuisine.shade],
-                                   startPoint: .topLeading, endPoint: .bottomTrailing)
-                    // Oversized ghost glyph as a decorative motif.
-                    HStack {
-                        Spacer()
-                        GlyphIcon(glyph: m.recipe.kind.glyph, size: 110, color: .white.opacity(0.14))
-                            .rotationEffect(.degrees(-8))
-                            .padding(.trailing, 6)
-                            .padding(.top, 10)
+                    if let ui = FoodArtLibrary.recipe(m.recipe.id) {
+                        GeometryReader { geo in
+                            Image(uiImage: ui)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: geo.size.width, height: geo.size.height)
+                                .clipped()
+                        }
+                    } else {
+                        LinearGradient(colors: [cuisine.color, cuisine.shade],
+                                       startPoint: .topLeading, endPoint: .bottomTrailing)
                     }
+                    LinearGradient(colors: [cuisine.shade.opacity(0.94),
+                                            cuisine.shade.opacity(0.62), .clear],
+                                   startPoint: .leading, endPoint: .trailing)
                     VStack(alignment: .leading, spacing: 10) {
                         HStack(spacing: 6) {
                             GlyphIcon(glyph: .star, size: 13, color: .white)
@@ -96,7 +102,8 @@ struct DiscoverView: View {
                     }
                     .padding(18)
                 }
-                .frame(height: 150)
+                .frame(height: 170)
+                .clipped()
 
                 // Match strip
                 HStack(spacing: 10) {
@@ -220,10 +227,7 @@ struct CuisineCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ZStack(alignment: .bottomTrailing) {
-                LinearGradient(colors: [cuisine.color, cuisine.shade],
-                               startPoint: .topLeading, endPoint: .bottomTrailing)
-                GlyphIcon(glyph: cuisine.glyph, size: 54, color: .white.opacity(0.22))
-                    .padding(10)
+                CuisineArtBackground(cuisine: cuisine)
                 VStack(alignment: .leading, spacing: 3) {
                     GlyphIcon(glyph: cuisine.glyph, size: 24, color: .white)
                     Spacer(minLength: 0)
@@ -289,9 +293,9 @@ struct MiniRecipeCard: View {
     let match: MatchResult
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                MealEmblem(kind: match.recipe.kind, size: 40)
-                Spacer()
+            ZStack(alignment: .topTrailing) {
+                RecipeArtView(recipe: match.recipe, corner: 12)
+                    .frame(height: 92)
                 HStack(spacing: 4) {
                     GlyphIcon(glyph: .check, size: 12, color: Kitchen.ready)
                     Text("100%")
@@ -299,7 +303,8 @@ struct MiniRecipeCard: View {
                         .foregroundColor(Kitchen.ready)
                 }
                 .padding(.horizontal, 8).padding(.vertical, 4)
-                .background(Capsule().fill(Kitchen.ready.opacity(0.12)))
+                .background(Capsule().fill(Color.white.opacity(0.92)))
+                .padding(6)
             }
             Text(match.recipe.name)
                 .font(.kitchenRounded(14.5, .semibold))
@@ -329,7 +334,8 @@ struct AlmostRow: View {
     }
     var body: some View {
         HStack(spacing: 12) {
-            MealEmblem(kind: match.recipe.kind, size: 42)
+            RecipeArtView(recipe: match.recipe, corner: 12)
+                .frame(width: 52, height: 52)
             VStack(alignment: .leading, spacing: 3) {
                 Text(match.recipe.name)
                     .font(.kitchenRounded(15, .semibold))

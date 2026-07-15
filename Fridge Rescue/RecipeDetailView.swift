@@ -74,7 +74,12 @@ struct RecipeDetailView: View {
     // MARK: - Sections
 
     private var titleBlock: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 14) {
+            RecipeArtView(recipe: recipe, corner: 22)
+                .frame(height: 210)
+                .overlay(RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    .stroke(Kitchen.hairline, lineWidth: 1))
+                .shadow(color: recipe.cuisine.shade.opacity(0.16), radius: 12, y: 6)
             HStack(spacing: 12) {
                 MealEmblem(kind: recipe.kind, size: 52)
                 VStack(alignment: .leading, spacing: 4) {

@@ -26,6 +26,8 @@
 		FACE00000000000000000011 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEED00000000000000000013 /* DiscoverView.swift */; };
 		FACE00000000000000000012 /* CuisineViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEED00000000000000000014 /* CuisineViews.swift */; };
 		FACE00000000000000000013 /* CookModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEED00000000000000000015 /* CookModeView.swift */; };
+		FACE00000000000000000014 /* FoodArtStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEED00000000000000000016 /* FoodArtStore.swift */; };
+		FACE00000000000000000015 /* FoodArt in Resources */ = {isa = PBXBuildFile; fileRef = FEED00000000000000000017 /* FoodArt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +52,8 @@
 		FEED00000000000000000013 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoverView.swift"; sourceTree = "<group>"; };
 		FEED00000000000000000014 /* CuisineViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CuisineViews.swift"; sourceTree = "<group>"; };
 		FEED00000000000000000015 /* CookModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CookModeView.swift"; sourceTree = "<group>"; };
+		FEED00000000000000000016 /* FoodArtStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FoodArtStore.swift"; sourceTree = "<group>"; };
+		FEED00000000000000000017 /* FoodArt */ = {isa = PBXFileReference; lastKnownFileType = folder; path = FoodArt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +96,8 @@
 				FEED00000000000000000013 /* DiscoverView.swift */,
 				FEED00000000000000000014 /* CuisineViews.swift */,
 				FEED00000000000000000015 /* CookModeView.swift */,
+				FEED00000000000000000016 /* FoodArtStore.swift */,
+				FEED00000000000000000017 /* FoodArt */,
 				FEED00000000000000000010 /* Assets.xcassets */,
 				FEED00000000000000000011 /* Info.plist */,
 			);
@@ -165,6 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FACE00000000000000000010 /* Assets.xcassets in Resources */,
+				FACE00000000000000000015 /* FoodArt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,6 +200,7 @@
 				FACE00000000000000000011 /* DiscoverView.swift in Sources */,
 				FACE00000000000000000012 /* CuisineViews.swift in Sources */,
 				FACE00000000000000000013 /* CookModeView.swift in Sources */,
+				FACE00000000000000000014 /* FoodArtStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,7 +269,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGNING_REQUIRED = NO;
 				CODE_SIGNING_ALLOWED = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Fridge Rescue/Info.plist";
 				INFOPLIST_KEY_UILaunchScreen_Generation = NO;
@@ -269,7 +277,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.fridgerescue.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -292,7 +300,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGNING_REQUIRED = NO;
 				CODE_SIGNING_ALLOWED = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Fridge Rescue/Info.plist";
 				INFOPLIST_KEY_UILaunchScreen_Generation = NO;
@@ -300,7 +308,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.fridgerescue.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -184,7 +184,8 @@ struct RecipeMatchCard: View {
         CardContainer(padding: 16) {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(alignment: .top, spacing: 12) {
-                    MealEmblem(kind: match.recipe.kind, size: 46)
+                    RecipeArtView(recipe: match.recipe)
+                        .frame(width: 62, height: 62)
                     VStack(alignment: .leading, spacing: 4) {
                         Text(match.recipe.name)
                             .font(.kitchenRounded(17, .semibold))

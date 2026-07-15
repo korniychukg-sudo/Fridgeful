@@ -46,14 +46,7 @@ struct CuisineDetailView: View {
 
     private var hero: some View {
         ZStack(alignment: .bottomLeading) {
-            LinearGradient(colors: [cuisine.color, cuisine.shade],
-                           startPoint: .topLeading, endPoint: .bottomTrailing)
-            HStack {
-                Spacer()
-                GlyphIcon(glyph: cuisine.glyph, size: 96, color: .white.opacity(0.16))
-                    .rotationEffect(.degrees(-8))
-                    .padding(.trailing, 8)
-            }
+            CuisineArtBackground(cuisine: cuisine)
             VStack(alignment: .leading, spacing: 6) {
                 Text(cuisine.rawValue)
                     .font(.kitchenSerif(28, .semibold))
@@ -70,7 +63,7 @@ struct CuisineDetailView: View {
             }
             .padding(18)
         }
-        .frame(height: 150)
+        .frame(height: 160)
         .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
         .shadow(color: cuisine.shade.opacity(0.2), radius: 12, y: 6)
     }
@@ -121,22 +114,38 @@ struct CollectionDetailView: View {
     }
 
     private var header: some View {
-        HStack(spacing: 14) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .fill(collection.tint.opacity(0.15))
-                GlyphIcon(glyph: collection.glyph, size: 26, color: collection.tint)
+        VStack(alignment: .leading, spacing: 14) {
+            if let ui = FoodArtLibrary.collection(collection.id) {
+                GeometryReader { geo in
+                    Image(uiImage: ui)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: geo.size.width, height: geo.size.height)
+                        .clipped()
+                }
+                .frame(height: 130)
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .stroke(Kitchen.hairline, lineWidth: 1))
+                .shadow(color: Color.black.opacity(0.06), radius: 8, y: 4)
             }
-            .frame(width: 52, height: 52)
-            VStack(alignment: .leading, spacing: 3) {
-                Text(collection.title)
-                    .font(.kitchenSerif(23, .semibold))
-                    .foregroundColor(Kitchen.primaryDk)
-                Text("\(collection.subtitle) · \(matches.count) recipes")
-                    .font(.kitchenRounded(13))
-                    .foregroundColor(Kitchen.textMuted)
+            HStack(spacing: 14) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .fill(collection.tint.opacity(0.15))
+                    GlyphIcon(glyph: collection.glyph, size: 26, color: collection.tint)
+                }
+                .frame(width: 52, height: 52)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(collection.title)
+                        .font(.kitchenSerif(23, .semibold))
+                        .foregroundColor(Kitchen.primaryDk)
+                    Text("\(collection.subtitle) · \(matches.count) recipes")
+                        .font(.kitchenRounded(13))
+                        .foregroundColor(Kitchen.textMuted)
+                }
+                Spacer(minLength: 0)
             }
-            Spacer(minLength: 0)
         }
     }
 }

@@ -150,9 +150,9 @@ struct MoreView: View {
                     Text("Fridge Rescue")
                         .font(.kitchenRounded(15, .semibold)).foregroundColor(Kitchen.text)
                     Spacer()
-                    Text("Version 1.1").font(.kitchenRounded(13)).foregroundColor(Kitchen.textMuted)
+                    Text("Version 1.2").font(.kitchenRounded(13)).foregroundColor(Kitchen.textMuted)
                 }
-                Text("\(FoodLibrary.recipes.count) offline recipes across \(Cuisine.allCases.count) world cuisines · \(FoodLibrary.ingredients.count) ingredients. No accounts, no ads, no internet required.")
+                Text("\(FoodLibrary.recipes.count) illustrated offline recipes across \(Cuisine.allCases.count) world cuisines · \(FoodLibrary.ingredients.count) ingredients. No accounts, no ads, no internet required.")
                     .font(.kitchenRounded(13.5)).foregroundColor(Kitchen.textMuted)
                     .fixedSize(horizontal: false, vertical: true)
                 Button(action: { showPrivacy = true }) {

@@ -156,10 +156,14 @@ struct CookModeView: View {
         CenteredContent {
             VStack(spacing: 20) {
                 Spacer()
+                RecipeArtView(recipe: recipe, corner: 22)
+                    .frame(height: 190)
+                    .padding(.horizontal, Metrics.gutter)
+                    .shadow(color: Color.black.opacity(0.08), radius: 10, y: 5)
                 ZStack {
-                    Circle().fill(Kitchen.ready.opacity(0.14)).frame(width: 130, height: 130)
-                    Circle().stroke(Kitchen.ready.opacity(0.3), lineWidth: 2).frame(width: 130, height: 130)
-                    GlyphIcon(glyph: .check, size: 56, color: Kitchen.ready)
+                    Circle().fill(Kitchen.ready.opacity(0.14)).frame(width: 72, height: 72)
+                    Circle().stroke(Kitchen.ready.opacity(0.3), lineWidth: 2).frame(width: 72, height: 72)
+                    GlyphIcon(glyph: .check, size: 34, color: Kitchen.ready)
                 }
                 Text("Enjoy your meal!")
                     .font(.kitchenSerif(28, .semibold))
