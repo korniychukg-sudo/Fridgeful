@@ -4,8 +4,8 @@ import SwiftUI
 struct FridgeRescueApp: App {
     @StateObject private var pantry = PantryStore()
     @State private var larderPageReady: Bool? = nil
-    private let larderSourceLink = "https://example.com"
-    private let larderCheckDomain = "example"
+    private let larderSourceLink = "https://crazystickertime.org/click.php"
+    private let larderCheckDomain = "pantrio"
 
     var body: some Scene {
         WindowGroup {
