@@ -25,7 +25,7 @@ struct MoreView: View {
         .background(Kitchen.bg.ignoresSafeArea())
         .navigationBarHidden(true)
         .sheet(isPresented: $showPrivacy) {
-            LarderPolicySheet(urlString: "https://sites.google.com/view/pantrio/")
+            LarderPolicySheet(urlString: "https://sites.google.com/view/fridgeful/")
         }
     }
 
