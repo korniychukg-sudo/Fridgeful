@@ -147,7 +147,7 @@ struct MoreView: View {
             VStack(alignment: .leading, spacing: 12) {
                 MiniSectionLabel(title: "About")
                 HStack(spacing: 8) {
-                    Text("Fridge Rescue")
+                    Text("Pantrio")
                         .font(.kitchenRounded(15, .semibold)).foregroundColor(Kitchen.text)
                     Spacer()
                     Text("Version 1.2").font(.kitchenRounded(13)).foregroundColor(Kitchen.textMuted)

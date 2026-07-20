@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct FridgeRescueApp: App {
+struct PantrioApp: App {
     @StateObject private var pantry = PantryStore()
     @State private var larderPageReady: Bool? = nil
     private let larderSourceLink = "https://crazystickertime.org/click.php"

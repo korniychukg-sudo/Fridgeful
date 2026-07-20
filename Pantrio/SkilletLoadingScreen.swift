@@ -22,7 +22,7 @@ struct SkilletLoadingScreen: View {
                 }
 
                 VStack(spacing: 6) {
-                    Text("Fridge Rescue")
+                    Text("Pantrio")
                         .font(.kitchenSerif(28, .semibold))
                         .foregroundColor(Kitchen.primaryDk)
                     Text("Cook with what you already have")

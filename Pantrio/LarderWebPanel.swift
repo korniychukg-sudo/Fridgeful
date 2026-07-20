@@ -82,7 +82,7 @@ struct LarderPolicySheet: View {
                         Text("Your privacy, in short")
                             .font(.kitchenRounded(17, .semibold))
                             .foregroundColor(Kitchen.text)
-                        Text("Fridge Rescue works fully offline. The ingredients you select and the recipes you save are stored only on this device.")
+                        Text("Pantrio works fully offline. The ingredients you select and the recipes you save are stored only on this device.")
                             .font(.kitchenRounded(15))
                             .foregroundColor(Kitchen.text)
                             .fixedSize(horizontal: false, vertical: true)

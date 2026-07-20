@@ -168,7 +168,7 @@ struct CookModeView: View {
                 Text("Enjoy your meal!")
                     .font(.kitchenSerif(28, .semibold))
                     .foregroundColor(Kitchen.primaryDk)
-                Text("\(recipe.name) is done. That's meal number \(pantry.cookedTotal) cooked with Fridge Rescue.")
+                Text("\(recipe.name) is done. That's meal number \(pantry.cookedTotal) cooked with Pantrio.")
                     .font(.kitchenRounded(15))
                     .foregroundColor(Kitchen.textMuted)
                     .multilineTextAlignment(.center)
